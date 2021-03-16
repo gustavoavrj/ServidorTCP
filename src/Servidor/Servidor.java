@@ -28,21 +28,16 @@ public class Servidor extends Conexion {
 
                 //Se obtiene el flujo de salida del cliente para enviarle mensajes
                 salidaCliente = new DataOutputStream(cs.getOutputStream());
-//
-//            //Se le envía un mensaje al cliente usando su flujo de salida
-//            salidaCliente.writeUTF("Petición recibida y aceptada");
 
                 //Se obtiene el flujo entrante desde el cliente
                 DataInputStream entradaCliente = new DataInputStream(new BufferedInputStream(cs.getInputStream()));
                 char tipoFigura = entradaCliente.readChar();
                 char tipoOperacion = entradaCliente.readChar();
-
-
+                double radio = entradaCliente.readDouble();
+                double altura = entradaCliente.readDouble();
+                double lado = entradaCliente.readDouble();
                 if (tipoFigura == 0) {
                     System.out.println("Operacion con Cilindro: ");
-                    double radio = entradaCliente.readDouble();
-                    double altura = entradaCliente.readDouble();
-                    double lado = entradaCliente.readDouble();
                     Cilindro cilindro = new Cilindro(radio, altura, lado);
                     if (tipoOperacion == 0) {
                         System.out.print("Area");
@@ -55,9 +50,6 @@ public class Servidor extends Conexion {
 
                 } else if (tipoFigura == 1) {
                     System.out.println("Operacion con Esfera: ");
-                    double radio = entradaCliente.readDouble();
-                    double altura = entradaCliente.readDouble();
-                    double lado = entradaCliente.readDouble();
                     Esfera esfera = new Esfera(radio);
                     if (tipoOperacion == 0) {
                         System.out.print("Area");
@@ -70,9 +62,6 @@ public class Servidor extends Conexion {
 
                 } else if (tipoFigura == 2) {
                     System.out.println("Operacion con Cono: ");
-                    double radio = entradaCliente.readDouble();
-                    double altura = entradaCliente.readDouble();
-                    double lado = entradaCliente.readDouble();
                     Cono cono = new Cono(radio, altura);
                     if (tipoOperacion == 0) {
                         System.out.print("Area");
@@ -85,9 +74,6 @@ public class Servidor extends Conexion {
 
                 } else if (tipoFigura == 3) {
                     System.out.println("Operacion con Cubo: ");
-                    double radio = entradaCliente.readDouble();
-                    double altura = entradaCliente.readDouble();
-                    double lado = entradaCliente.readDouble();
                     Cubo cubo = new Cubo(lado);
                     if (tipoOperacion == 0) {
                         System.out.print("Area");
@@ -100,9 +86,6 @@ public class Servidor extends Conexion {
 
                 } else if (tipoFigura == 4) {
                     System.out.println("Operacion con Prisma: ");
-                    double radio = entradaCliente.readDouble();
-                    double altura = entradaCliente.readDouble();
-                    double lado = entradaCliente.readDouble();
                     Prisma prisma = new Prisma(altura, lado);
                     if (tipoOperacion == 0) {
                         System.out.print("Area");
@@ -115,9 +98,6 @@ public class Servidor extends Conexion {
 
                 } else if (tipoFigura == 5) {
                     System.out.println("Operacion con Piramide: ");
-                    double radio = entradaCliente.readDouble();
-                    double altura = entradaCliente.readDouble();
-                    double lado = entradaCliente.readDouble();
                     Piramide piramide = new Piramide(altura, lado);
                     if (tipoOperacion == 0) {
                         System.out.print("Area");
@@ -130,12 +110,7 @@ public class Servidor extends Conexion {
 
                 }
 
-//            while((mensajeServidor = entrada.readLine()) != null) //Mientras haya mensajes desde el cliente
-//            {
-//                //Se muestra por pantalla el mensaje recibido
-//                System.out.println(mensajeServidor);
-//            }
-
+//
             System.out.println("Fin de la conexión");
             //ss.close();//Se finaliza la conexión con el cliente
         }
