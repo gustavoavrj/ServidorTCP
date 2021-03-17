@@ -1,15 +1,13 @@
 package Servidor.Operaciones;
-import Servidor.Operaciones.InterfazOperaciones;
 
 public class Cilindro implements InterfazOperaciones {
     private double resultado;
-    private double radio;
-    private double altura;
-    private double lado;
-    public Cilindro (double radio, double altura, double lado) {
+    private final double radio;
+    private final double altura;
+
+    public Cilindro(double radio, double altura) {
         this.radio = radio;
         this.altura = altura;
-        this.lado = lado;
 
     }
 
