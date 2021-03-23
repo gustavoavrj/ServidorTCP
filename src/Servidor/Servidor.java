@@ -21,7 +21,7 @@ public class Servidor extends Conexion {
 
     private static void logger(InetAddress ipRemitente, int puertoRemitente, String entradas, String resultado) {
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss:SS");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-dyyyy HH:mm:ss:SS");
             File archivo = new File("serverlogs.log");
             FileHandler fh;
             Logger logger = Logger.getLogger("MyLog");
