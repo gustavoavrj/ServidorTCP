@@ -1,0 +1,4 @@
+Mar 24, 2021 12:15:16 AM Servidor.Servidor logger
+INFO: 24-03-242021 00:15:16:404	Cliente = /127.0.0.1:35534	Entradas = Operacion: V Figura: ES	Salida =  Resultado: 44602.23810056548
+Mar 24, 2021 12:16:44 AM Servidor.Servidor logger
+INFO: 24-03-242021 00:16:44:394	Cliente = /127.0.0.1:35546	Entradas = Operacion: A Figura: ES	Salida =  Resultado: 314.1592653589793
