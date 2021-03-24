@@ -1,6 +1,7 @@
 package Servidor;
 
 import Conexion.Conexion;
+import Protocolo.Protocolo;
 import Servidor.Operaciones.*;
 
 import java.io.*;
@@ -41,6 +42,8 @@ public class Servidor extends Conexion {
 
     public void startServer()//Método para iniciar el servidor
     {
+        Protocolo protocolo = new Protocolo();
+
         while (!ss.isClosed()) {
             try {
                 System.out.println("Esperando..."); //Esperando conexión
@@ -57,90 +60,103 @@ public class Servidor extends Conexion {
                 InetAddress ipRemitente = cs.getInetAddress();
                 int puertoRemitente = cs.getPort();
 
-                char tipoFigura = entradaCliente.readChar();
-                char tipoOperacion = entradaCliente.readChar();
-                double radio = entradaCliente.readDouble();
-                double altura = entradaCliente.readDouble();
-                double lado = entradaCliente.readDouble();
-                if (tipoFigura == 1) {
-                    System.out.println("Operacion con Cilindro: ");
-                    Cilindro cilindro = new Cilindro(radio, altura);
-                    if (tipoOperacion == 1) {
-                        System.out.print("Area");
-                        resultado = cilindro.area();
-                    } else if (tipoOperacion == 2) {
-                        System.out.print("Volumen");
-                        resultado = cilindro.volumen();
-                    }
-                    salidaCliente.writeDouble(resultado);
+                String cadena = entradaCliente.readUTF();
+                protocolo.decodificarCadena(cadena);
+                String tipoFigura = protocolo.figura();
+                System.out.println(tipoFigura);
+                String tipoOperacion = protocolo.operacion();
+                System.out.println(tipoOperacion);
 
-                } else if (tipoFigura == 2) {
-                    System.out.println("Operacion con Esfera: ");
-                    Esfera esfera = new Esfera(radio);
-                    if (tipoOperacion == 1) {
-                        System.out.print("Area");
-                        resultado = esfera.area();
-                    } else if (tipoOperacion == 2) {
-                        System.out.print("Volumen");
-                        resultado = esfera.volumen();
-                    }
-                    salidaCliente.writeDouble(resultado);
+                double altura = protocolo.getAltura();
+                double lado = protocolo.getLado();
+                double radio = protocolo.getRadio();
 
-                } else if (tipoFigura == 3) {
-                    System.out.println("Operacion con Cono: ");
-                    Cono cono = new Cono(radio, altura);
-                    if (tipoOperacion == 1) {
-                        System.out.print("Area");
-                        resultado = cono.area();
-                    } else if (tipoOperacion == 2) {
-                        System.out.print("Volumen");
-                        resultado = cono.volumen();
-                    }
-                    salidaCliente.writeDouble(resultado);
 
-                } else if (tipoFigura == 4) {
-                    System.out.println("Operacion con Cubo: ");
-                    Cubo cubo = new Cubo(lado);
-                    if (tipoOperacion == 1) {
-                        System.out.print("Area");
-                        resultado = cubo.area();
-                    } else if (tipoOperacion == 2) {
-                        System.out.print("Volumen");
-                        resultado = cubo.volumen();
-                    }
-                    salidaCliente.writeDouble(resultado);
+                switch (tipoFigura) {
+                    case "CL":
+                        System.out.println("Operacion con Cilindro: ");
+                        Cilindro cilindro = new Cilindro(radio, altura);
+                        if (tipoOperacion.equals("A")) {
+                            System.out.print("Area");
+                            resultado = cilindro.area();
+                        } else if (tipoOperacion.equals("V")) {
+                            System.out.print("Volumen");
+                            resultado = cilindro.volumen();
+                        }
 
-                } else if (tipoFigura == 5) {
-                    System.out.println("Operacion con Prisma: ");
-                    Prisma prisma = new Prisma(altura, lado);
-                    if (tipoOperacion == 1) {
-                        System.out.print("Area");
-                        resultado = prisma.area();
-                    } else if (tipoOperacion == 2) {
-                        System.out.print("Volumen");
-                        resultado = prisma.volumen();
-                    }
-                    salidaCliente.writeDouble(resultado);
+                        break;
+                    case "ES":
+                        System.out.println("Operacion con Esfera: ");
+                        Esfera esfera = new Esfera(radio);
+                        if (tipoOperacion.equals("A")) {
+                            System.out.print("Area");
+                            resultado = esfera.area();
+                        } else if (tipoOperacion.equals("V")) {
+                            System.out.print("Volumen");
+                            resultado = esfera.volumen();
+                        }
 
-                } else if (tipoFigura == 6) {
-                    System.out.println("Operacion con Piramide: ");
-                    Piramide piramide = new Piramide(altura, lado);
-                    if (tipoOperacion == 1) {
-                        System.out.print("Area");
-                        resultado = piramide.area();
-                    } else if (tipoOperacion == 2) {
-                        System.out.print("Volumen");
-                        resultado = piramide.volumen();
-                    }
-                    salidaCliente.writeDouble(resultado);
+                        break;
+                    case "CO":
+                        System.out.println("Operacion con Cono: ");
+                        Cono cono = new Cono(radio, altura);
+                        if (tipoOperacion.equals("A")) {
+                            System.out.print("Area");
+                            resultado = cono.area();
+                        } else if (tipoOperacion.equals("V")) {
+                            System.out.print("Volumen");
+                            resultado = cono.volumen();
+                        }
 
+                        break;
+                    case "CU":
+                        System.out.println("Operacion con Cubo: ");
+                        Cubo cubo = new Cubo(lado);
+                        if (tipoOperacion.equals("A")) {
+                            System.out.print("Area");
+                            resultado = cubo.area();
+                        } else if (tipoOperacion.equals("V")) {
+                            System.out.print("Volumen");
+                            resultado = cubo.volumen();
+                        }
+
+                        break;
+                    case "PR":
+                        System.out.println("Operacion con Prisma: ");
+                        Prisma prisma = new Prisma(altura, lado);
+                        if (tipoOperacion.equals("A")) {
+                            System.out.print("Area");
+                            resultado = prisma.area();
+                        } else if (tipoOperacion.equals("V")) {
+                            System.out.print("Volumen");
+                            resultado = prisma.volumen();
+                        }
+
+                        break;
+                    case "PI":
+                        System.out.println("Operacion con Piramide: ");
+                        Piramide piramide = new Piramide(altura, lado);
+                        if (tipoOperacion.equals("A")) {
+                            System.out.print("Area");
+                            resultado = piramide.area();
+                        } else if (tipoOperacion.equals("V")) {
+                            System.out.print("Volumen");
+                            resultado = piramide.volumen();
+                        }
+
+                        break;
                 }
+                System.out.println(resultado);
+                String cadenaCodificada = protocolo.codificarCadena(resultado);
+                System.out.println(cadenaCodificada);
+
+                salidaCliente.writeUTF(cadenaCodificada);
                 logger(ipRemitente, puertoRemitente, "Operacion: " + tipoOperacion + " Figura: " + tipoFigura, " Resultado: " + resultado);
 
 //
-            System.out.println("Fin de la conexión");
-            //ss.close();//Se finaliza la conexión con el cliente
-        }
+                System.out.println("Fin de la conexión");
+                //ss.close();//Se finaliza la conexión con el cliente
+            }
         catch (Exception e)
         {
             System.out.println(e.getMessage());
